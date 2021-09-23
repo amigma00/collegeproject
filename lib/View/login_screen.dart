@@ -215,7 +215,6 @@ class _LoginScreenState extends State<LoginScreen> {
             () {
               print('Login with Google');
             },
-
             AssetImage(
               'assets/logos/google.jpg',
             ),
