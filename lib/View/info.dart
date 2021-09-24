@@ -12,16 +12,7 @@ class Info extends StatefulWidget {
 class _InfoState extends State<Info> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text('Discover')), //AppBar
-      body: Padding(
+    return  Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
@@ -58,7 +49,6 @@ class _InfoState extends State<Info> {
                 }) //TextField
           ],
         ), //Column
-      ), //Padding
-    );
+      );
   }
 }

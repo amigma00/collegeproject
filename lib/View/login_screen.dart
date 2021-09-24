@@ -1,8 +1,9 @@
 import 'package:collegeproject/View/info.dart';
+import 'package:collegeproject/utilities/auth.dart';
 import 'package:collegeproject/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -135,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => Info()),
           );
           print('Login Button Pressed');
-
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -213,9 +213,10 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           _buildSocialBtn(
             () {
+              final provider = Provider.of<Authorization>(context, listen: false);
+              provider.googleLogin();
               print('Login with Google');
             },
-
             AssetImage(
               'assets/logos/google.jpg',
             ),
