@@ -22,6 +22,7 @@ class Authorization extends ChangeNotifier{
      accessToken: googleAuth.accessToken,
      idToken: googleAuth.idToken,
    );
+
    await FirebaseAuth.instance.signInWithCredential(credential);
    notifyListeners();
 
