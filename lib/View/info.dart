@@ -30,9 +30,20 @@ class _InfoState extends State<Info> {
             TextField(
               decoration: InputDecoration(
                   hintText: "Location",
-                  labelText: "Current Location",
+                  labelText: "City",
                   labelStyle:
                       TextStyle(fontSize: 24, color: Colors.black), //TextSytyle
+                  border: OutlineInputBorder()), //InputDecoration
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  hintText: "Location1",
+                  labelText: "Pin Code",
+                  labelStyle:
+                  TextStyle(fontSize: 24, color: Colors.black), //TextSytyle
                   border: OutlineInputBorder()), //InputDecoration
             ),
             SizedBox(
