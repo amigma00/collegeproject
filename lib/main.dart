@@ -1,3 +1,4 @@
+import 'package:collegeproject/View/dropdown/hospital.dart';
 import 'package:collegeproject/View/info.dart';
 import 'package:collegeproject/View/login_screen.dart';
 import 'package:collegeproject/utilities/auth.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: darkThemeEnabled ? ThemeData.dark() : ThemeData.light(),
-        home: LoginScreen(),
+        home: Hospital(),
       ));
 
 // ignore: non_constant_identifier_names

@@ -12,7 +12,8 @@ class Info extends StatefulWidget {
 class _InfoState extends State<Info> {
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
@@ -43,7 +44,7 @@ class _InfoState extends State<Info> {
                   hintText: "Location1",
                   labelText: "Pin Code",
                   labelStyle:
-                  TextStyle(fontSize: 24, color: Colors.black), //TextSytyle
+                      TextStyle(fontSize: 24, color: Colors.black), //TextSytyle
                   border: OutlineInputBorder()), //InputDecoration
             ),
             SizedBox(
@@ -60,6 +61,7 @@ class _InfoState extends State<Info> {
                 }) //TextField
           ],
         ), //Column
-      );
+      ),
+    );
   }
 }

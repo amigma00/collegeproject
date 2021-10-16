@@ -30,6 +30,7 @@ dependencies:
   provider: ^6.0.0
   google_sign_in: ^4.5.1
   firebase_core: ^1.6.0
+  velocity_x: ^3.3.0
 
 
 
@@ -58,6 +59,7 @@ flutter:
   assets:
     - assets/logos/facebook.jpg
     - assets/logos/google.jpg
+    - assets/logos/download.jfif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
