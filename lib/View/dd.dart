@@ -1,4 +1,6 @@
+import 'package:collegeproject/View/Drawer%20Pages/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:collegeproject/View/Drawer Pages/profile.dart';
 
 class DD extends StatefulWidget {
   const DD({Key? key}) : super(key: key);
@@ -19,8 +21,7 @@ class _DDState extends State<DD> {
 
   @override
   Widget build(BuildContext context) {
-
-  // ignore: non_constant_identifier_names
+    // ignore: non_constant_identifier_names
     final imageUrl = "";
 
     return Scaffold(
@@ -50,65 +51,86 @@ class _DDState extends State<DD> {
         ),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              margin: EdgeInsets.zero,
-              accountName: Text("TITLE"),
-              accountEmail: Text("BODY"),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(imageUrl),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+        DrawerHeader(
+        decoration: BoxDecoration(color: Colors.blue),
+        child: Padding(
+          padding: EdgeInsets.all(6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                width: 60,
+                height: 60,
+                child: CircleAvatar(
+                    backgroundImage: AssetImage('images/user_5.png')),
               ),
-            ),
-            new ListTile(
-              leading: Icon(
-                Icons.person,
+              SizedBox(
+                height: 15,
               ),
-              title: Text(
-                "Profile",
-                textScaleFactor: 1.2,
+              Text(
+                'Ankita Umredkar',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
               ),
-            ),
-            new ListTile(
-              leading: Icon(
-                Icons.favorite,
+              SizedBox(
+                height: 3,
               ),
-              title: Text(
-                "Dark Mode",
-                textScaleFactor: 1.2,
-                style: TextStyle(),
+              Text(
+                'aaumredkar@gmail.com',
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-              trailing: Switch(
-                value: darkThemeEnabled,
-                onChanged: (changedTheme) {
-                  setState(() {
-                    darkThemeEnabled = changedTheme;
-                  });
-                },
-              ),
-            ),
-            new ListTile(
-              leading: Icon(
-                Icons.settings,
-              ),
-              title: Text(
-                "Setting ",
-                textScaleFactor: 1.2,
-                style: TextStyle(),
-              ),
-            ),
-            // new Divider(),
-            // new ListTile(
-            //   leading: Icon(Icons.close),
-            //   title: Text(
-            //     "Close",
-            //   ),
-            //   onTap: () => Navigator.of(context).pop(),
-            // ),
-          ],
+            ],
+          ),
         ),
       ),
-    );
+      ListTile(
+        leading: Icon(Icons.home),
+        title: Text('Home'),
+        //onTap: () => widget.onTap(context, 0),
+      ),
+      ListTile(
+        leading: Icon(Icons.person),
+        title: Text('Profile'),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Profile())
+          );
+        }),
+        ListTile(
+          leading: Icon(Icons.dark_mode),
+          title: Text('Dark Mode'),
+          // onTap: () => onTap(context, 2),
+          trailing: Switch(
+            value: darkThemeEnabled,
+            onChanged: (changedTheme) {
+              setState(() {
+                darkThemeEnabled = changedTheme;
+              });
+            },
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('Setting'),
+          //onTap: () => widget.onTap(context, 2),
+        ),
+        Divider(
+          height: 1,
+        ),
+        ListTile(
+          leading: Icon(Icons.exit_to_app),
+          title: Text('Logout'),
+          //onTap: () => widget.onTap(context, 0),
+        ),
+        ],
+      ),
+    ),);
   }
 }
