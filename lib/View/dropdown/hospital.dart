@@ -65,10 +65,10 @@ class _HospitalState extends State<Hospital> {
                                 Row(
                                   children: [
                                     "Status : ".text.make(),
-                                    if (state == false)
-                                      "On".text.green400.make()
+                                    if (state == true)
+                                      "On".text.green400.bold.make()
                                     else
-                                      "Off".text.red400.make(),
+                                      "Off".text.red400.bold.make(),
                                   ],
                                 ),
                                 HeightBox(10),

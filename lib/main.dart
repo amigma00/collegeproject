@@ -1,4 +1,3 @@
-import 'package:collegeproject/View/dropdown/hospital.dart';
 import 'package:collegeproject/View/info.dart';
 import 'package:collegeproject/View/login_screen.dart';
 import 'package:collegeproject/utilities/auth.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: darkThemeEnabled ? ThemeData.dark() : ThemeData.light(),
-        home: Hospital(),
+        home: MyHomePage(),
       ));
 
 // ignore: non_constant_identifier_names
@@ -44,7 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
         body: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting)
+              final provider = Provider.of<Authorization>(context);
+              if (provider.isSigningIn)
                 return Center(
                   child: CircularProgressIndicator(),
                 );

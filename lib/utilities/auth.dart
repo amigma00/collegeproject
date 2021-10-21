@@ -3,28 +3,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
-class Authorization extends ChangeNotifier{
+class Authorization extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
+  bool _isSigningIn = false;
 
-  GoogleSignInAccount? _user;
-
-  GoogleSignInAccount get user=>_user!;
-
-  Future googleLogin() async {
-   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-   if(googleUser == null) return;
-   _user = googleUser;
-
-   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-   final credential = GoogleAuthProvider.credential(
-     accessToken: googleAuth.accessToken,
-     idToken: googleAuth.idToken,
-   );
-   await FirebaseAuth.instance.signInWithCredential(credential);
-   notifyListeners();
-
+  Authorization() {
+    _isSigningIn = false;
   }
 
+  bool get isSigningIn => _isSigningIn;
+
+  set isSigningIn(bool isSigningIn) {
+    _isSigningIn = isSigningIn;
+    notifyListeners();
+  }
+
+  Future googleLogin() async {
+    isSigningIn = true;
+    final user = await googleSignIn.signIn();
+    if (user == null) {
+      isSigningIn = false;
+      return;
+    } else {
+      final googleAuth = await user.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      isSigningIn = false;
+    }
+  }
+  void logout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
+  }
 }

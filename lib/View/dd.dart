@@ -22,7 +22,7 @@ class _DDState extends State<DD> {
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
-    final imageUrl = "";
+
 
     return Scaffold(
       appBar: AppBar(

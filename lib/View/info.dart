@@ -1,15 +1,14 @@
+import 'package:collegeproject/utilities/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'dd.dart';
 
-class Info extends StatefulWidget {
-  const Info({Key? key}) : super(key: key);
 
-  @override
-  _InfoState createState() => _InfoState();
-}
+class Info extends StatelessWidget {
+  final user = FirebaseAuth.instance.currentUser;
 
-class _InfoState extends State<Info> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +57,33 @@ class _InfoState extends State<Info> {
                     context,
                     MaterialPageRoute(builder: (context) => DD()),
                   );
-                }) //TextField
+                }),
+            Text(
+              'Logged In',
+              style: TextStyle(color: Colors.white),
+            ),
+            SizedBox(height: 8),
+            // CircleAvatar(
+            //   maxRadius: 25,
+            //   backgroundImage: NetworkImage(user.photoURL!),
+            // ),
+            // SizedBox(height: 8),
+            // Text(
+            //   'Name: ' + user.displayName!),
+            //
+            // SizedBox(height: 8),
+            // Text(
+            //   'Email: ' + user.email),
+
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                final provider =
+                Provider.of<Authorization>(context, listen: false);
+                provider.logout();
+              },
+              child: Text('Logout'),
+            )
           ],
         ), //Column
       ),
