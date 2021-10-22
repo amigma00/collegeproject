@@ -1,3 +1,5 @@
+import 'package:collegeproject/View/dd.dart';
+import 'package:collegeproject/View/dropdown/hospital.dart';
 import 'package:collegeproject/View/info.dart';
 import 'package:collegeproject/View/login_screen.dart';
 import 'package:collegeproject/utilities/auth.dart';
@@ -6,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'View/dropdown/shop.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,12 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               final provider = Provider.of<Authorization>(context);
-              if (provider.isSigningIn)
+              if (snapshot.connectionState == ConnectionState.waiting)
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               else if (snapshot.hasData)
-                return Info();
+                return DD();
               else if (snapshot.hasError)
                 return Center(
                   child: Text('Something Went Wrong'),

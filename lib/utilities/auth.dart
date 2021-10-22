@@ -20,22 +20,27 @@ class Authorization extends ChangeNotifier {
 
   Future googleLogin() async {
     isSigningIn = true;
-    final user = await googleSignIn.signIn();
-    if (user == null) {
-      isSigningIn = false;
-      return;
-    } else {
-      final googleAuth = await user.authentication;
+    try {
+      final user = await googleSignIn.signIn();
+      if (user == null) {
+        isSigningIn = false;
+        return;
+      } else {
+        final googleAuth = await user.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      isSigningIn = false;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        isSigningIn = false;
+      }
+    } on Exception catch (e) {
+      print(e.toString());
     }
   }
-  void logout() async {
+
+  Future logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();
   }

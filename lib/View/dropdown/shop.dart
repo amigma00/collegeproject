@@ -2,16 +2,16 @@ import 'package:collegeproject/utilities/list.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class Hospital extends StatefulWidget {
-  const Hospital({Key? key}) : super(key: key);
+class Shop extends StatefulWidget {
+  const Shop({Key? key}) : super(key: key);
 
   @override
-  _HospitalState createState() => _HospitalState();
+  _ShopState createState() => _ShopState();
 }
 
-class _HospitalState extends State<Hospital> {
-  //late String status;
-  bool state = false;
+class _ShopState extends State<Shop> {
+  bool state = true;
+  var color = Colors.red;
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +39,13 @@ class _HospitalState extends State<Hospital> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                "ABC Hospital".text.xl2.bold.make(),
-                                Row(
-                                  children: [
-                                    "Available Beds : ".text.make(),
-                                    "34".text.green400.make(),
-                                  ],
-                                ),
+                                "Grocery Shop".text.xl2.bold.make(),
+                                // Row(
+                                //   children: [
+                                //     "Available Beds : ".text.make(),
+                                //     "34".text.green400.make(),
+                                //   ],
+                                // ),
                                 HeightBox(20),
                                 Row(
                                   children: [
@@ -73,10 +73,10 @@ class _HospitalState extends State<Hospital> {
                                 HeightBox(10),
                                 ClipRRect(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  BorderRadius.all(Radius.circular(10)),
                                   child: Image.asset(
-                                    "assets/logos/download.jfif",
-                                    scale: 2,
+                                    "assets/logos/grocery.jpg",
+                                    scale: 3,
                                   ),
                                 ),
                               ],
@@ -93,3 +93,4 @@ class _HospitalState extends State<Hospital> {
     );
   }
 }
+

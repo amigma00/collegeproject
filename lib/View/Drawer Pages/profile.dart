@@ -1,6 +1,7 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe, unused_field
 
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:image_picker/image_picker.dart';
@@ -14,6 +15,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final user = FirebaseAuth.instance.currentUser!;
   late File _image;
   
   @override
@@ -57,7 +59,7 @@ class _ProfileState extends State<Profile> {
           CircleAvatar(
               radius: 80.0,
               // ignore: unnecessary_null_comparison
-              backgroundImage: AssetImage('images/user_5.png')
+              backgroundImage: NetworkImage(user.photoURL!)
 
               // ignore: unnecessary_null_comparison
               // backgroundImage: _image == null

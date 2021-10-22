@@ -7,23 +7,18 @@ import 'dd.dart';
 
 
 class Info extends StatelessWidget {
-  final user = FirebaseAuth.instance.currentUser;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      appBar: AppBar(),
+      body: Container(
+        padding: EdgeInsets.all(10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              decoration: InputDecoration(
-                  hintText: "Your Name",
-                  labelText: "Name",
-                  labelStyle:
-                      TextStyle(fontSize: 24, color: Colors.black), //TextSytyle
-                  border: OutlineInputBorder()), //InputDecoration
-            ), //TextField
+             //TextField
             SizedBox(
               height: 16,
             ), //SizedBox
@@ -51,7 +46,7 @@ class Info extends StatelessWidget {
             ),
             MaterialButton(
                 color: Colors.red,
-                child: Text("NEXT"),
+                child: Text("Save"),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -63,9 +58,17 @@ class Info extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 8),
+            // ListTile(
+            //     leading: Icon(Icons.exit_to_app),
+            //     title: Text('Logout'),
+            //     onTap: () {
+            //       final provider =
+            //       Provider.of<Authorization>(context, listen: false);
+            //       provider.logout();
+            //     }),
             // CircleAvatar(
             //   maxRadius: 25,
-            //   backgroundImage: NetworkImage(user.photoURL!),
+            //   backgroundImage: NetworkImage(user!.photoURL!),
             // ),
             // SizedBox(height: 8),
             // Text(
@@ -73,19 +76,19 @@ class Info extends StatelessWidget {
             //
             // SizedBox(height: 8),
             // Text(
-            //   'Email: ' + user.email),
-
-            SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                final provider =
-                Provider.of<Authorization>(context, listen: false);
-                provider.logout();
-              },
-              child: Text('Logout'),
-            )
+            //   'Email: ' + user.email!),
+            //
+            // SizedBox(height: 8),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     final provider =
+            //     Provider.of<Authorization>(context, listen: false);
+            //     provider.logout();
+            //   },
+            //   child: Text('Logout'),
+            // )
           ],
-        ), //Column
+        ),
       ),
     );
   }
