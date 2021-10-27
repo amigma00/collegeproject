@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'dd.dart';
+import 'MainPage.dart';
 
 
 class Info extends StatelessWidget {
@@ -48,9 +48,9 @@ class Info extends StatelessWidget {
                 color: Colors.red,
                 child: Text("Save"),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => DD()),
+                    MaterialPageRoute(builder: (context) => MainPage()),
                   );
                 }),
             Text(
