@@ -58,35 +58,7 @@ class Info extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 8),
-            // ListTile(
-            //     leading: Icon(Icons.exit_to_app),
-            //     title: Text('Logout'),
-            //     onTap: () {
-            //       final provider =
-            //       Provider.of<Authorization>(context, listen: false);
-            //       provider.logout();
-            //     }),
-            // CircleAvatar(
-            //   maxRadius: 25,
-            //   backgroundImage: NetworkImage(user!.photoURL!),
-            // ),
-            // SizedBox(height: 8),
-            // Text(
-            //   'Name: ' + user.displayName!),
-            //
-            // SizedBox(height: 8),
-            // Text(
-            //   'Email: ' + user.email!),
-            //
-            // SizedBox(height: 8),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     final provider =
-            //     Provider.of<Authorization>(context, listen: false);
-            //     provider.logout();
-            //   },
-            //   child: Text('Logout'),
-            // )
+
           ],
         ),
       ),

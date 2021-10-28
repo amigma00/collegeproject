@@ -65,40 +65,28 @@ class _DrawState extends State<Draw> {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => Home()),
                 );
+                Navigator.pop(context);
               }),
           ListTile(
               leading: Icon(Icons.person),
               title: Text('Profile'),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => Profile()));
+                Navigator.pop(context);
               }),
-          // ListTile(
-          //   leading: Icon(Icons.dark_mode),
-          //   title: Text('Dark Mode'),
-          //   // onTap: () => onTap(context, 2),
-          //   trailing: Switch(
-          //     value: darkThemeEnabled,
-          //     onChanged: (changedTheme) {
-          //       setState(() {
-          //         darkThemeEnabled = changedTheme;
-          //       });
-          //     },
-          //   ),
-          // ),
+
           ListTile(
               leading: Icon(Icons.settings),
               title: Text('Setting'),
               onTap: () {
-                Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Setting()));
+                Navigator.pop(context);
               }),
           Divider(
             height: 1,
@@ -112,13 +100,6 @@ class _DrawState extends State<Draw> {
                     Provider.of<Authorization>(context, listen: false);
                 provider.logout();
 
-
-                // Navigator.pop(context);
-                //
-                // Navigator.pushReplacement(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) => MyHomePage()));
               }),
         ],
       ),

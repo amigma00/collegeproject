@@ -1,4 +1,5 @@
 import 'package:collegeproject/FirstTime.dart';
+import 'package:collegeproject/View/Drawer%20Pages/setting.dart';
 import 'package:collegeproject/View/MainPage.dart';
 import 'package:collegeproject/View/dropdown/hospital.dart';
 import 'package:collegeproject/View/info.dart';

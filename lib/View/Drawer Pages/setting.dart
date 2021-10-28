@@ -16,13 +16,20 @@ class _SettingState extends State<Setting> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: ListView(
-          children: <Widget>[
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             imageProfile(),
+            Text(
+              user.displayName!,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
+            ),
             SizedBox(
               height: 20,
             ),
-
             locationTextField(),
             SizedBox(
               height: 20,
@@ -70,15 +77,17 @@ class _SettingState extends State<Setting> {
   }
 
   Widget imageProfile() {
-    return Center(
-      child: CircleAvatar(
-          radius: 80.0,
-          // ignore: unnecessary_null_comparison
-          backgroundImage: NetworkImage(user.photoURL!)),
+    return Container(
+      height: 100,
+      width: 100,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: NetworkImage(user.photoURL!),
+          )),
     );
   }
-
-
 
   Widget pincodeTextField() {
     return TextFormField(
