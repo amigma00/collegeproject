@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -10,6 +11,24 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   final user = FirebaseAuth.instance.currentUser!;
+  TextEditingController Cuty = TextEditingController();
+  TextEditingController PinCude = TextEditingController();
+
+  @override
+  void initState() {
+    gitData();
+  }
+
+  String city = " ";
+  String pinCode = " ";
+
+  gitData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      city = prefs.getString('city')!;
+      pinCode = prefs.getString('pinCode')!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +49,50 @@ class _SettingState extends State<Setting> {
             SizedBox(
               height: 20,
             ),
-            locationTextField(),
+        TextFormField(
+          controller: Cuty,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.blueAccent,
+                width: 2,
+              ),
+            ),
+            prefixIcon: Icon(
+              Icons.location_city,
+              color: Colors.blue,
+            ),
+            labelText: city,
+            // helperText: "Write Your Current Location",
+            //hintText: 'Mumbai',
+          ),
+        ),
             SizedBox(
               height: 20,
             ),
-            pincodeTextField(),
+            TextFormField(controller: PinCude,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+                  ),
+                ),
+                prefixIcon: Icon(
+                  Icons.pin,
+                  color: Colors.blue,
+                ),
+                labelText: pinCode,
+                // helperText: "Pincode",
+                // hintText: '440035',
+              ),
+            ),
             SizedBox(
               height: 20,
             ),
@@ -57,7 +115,17 @@ class _SettingState extends State<Setting> {
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: ()  async{
+
+                      setState(() async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('city', Cuty.text);
+                        prefs.setString('pinCode', PinCude.text);
+                      });
+
+
+                  },
                   color: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 50),
                   shape: RoundedRectangleBorder(
@@ -90,7 +158,7 @@ class _SettingState extends State<Setting> {
   }
 
   Widget pincodeTextField() {
-    return TextFormField(
+    return TextFormField(controller: PinCude,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blue),
@@ -105,15 +173,16 @@ class _SettingState extends State<Setting> {
           Icons.pin,
           color: Colors.blue,
         ),
-        labelText: 'Pin Code',
-        helperText: "Pincode",
-        hintText: '440035',
+        labelText: pinCode,
+        // helperText: "Pincode",
+        // hintText: '440035',
       ),
     );
   }
 
   Widget locationTextField() {
     return TextFormField(
+      controller: Cuty,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blue),
@@ -128,9 +197,9 @@ class _SettingState extends State<Setting> {
           Icons.location_city,
           color: Colors.blue,
         ),
-        labelText: 'City',
-        helperText: "Write Your Current Location",
-        hintText: 'Mumbai',
+        labelText: city,
+        // helperText: "Write Your Current Location",
+        //hintText: 'Mumbai',
       ),
     );
   }

@@ -33,6 +33,7 @@ class Accha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future checkFirst() async {
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool _seen = (prefs.getBool('seen') ?? false);
       if (_seen) {

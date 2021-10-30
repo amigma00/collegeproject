@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../Drawer.dart';
@@ -18,6 +19,24 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  @override
+  void initState() {
+    getData();
+  }
+
+  String city=" ";
+  String pinCode=" ";
+
+  getData()async{
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      city = prefs.getString('city')!;
+      pinCode = prefs.getString('pinCode')!;
+    });
+  }
+
   final user = FirebaseAuth.instance.currentUser!;
   late File _image;
   
@@ -119,7 +138,7 @@ class _ProfileState extends State<Profile> {
                 Icons.location_city,
                 color: Colors.blueAccent,
               ),
-              title: Text("Mumbai"),
+              title: Text(city),
             ),
             Divider(
               height: 0.2,
@@ -131,7 +150,7 @@ class _ProfileState extends State<Profile> {
                 Icons.pin,
                 color: Colors.blueAccent,
               ),
-              title: Text("440029"),
+              title: Text(pinCode),
             ),
           ],
         ),

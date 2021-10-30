@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: darkThemeEnabled ? ThemeData.dark() : ThemeData.light(),
-        home: MyHomePage(),
+        home:MyHomePage(),
       ));
 
 // ignore: non_constant_identifier_names

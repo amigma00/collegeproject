@@ -65,28 +65,29 @@ class _DrawState extends State<Draw> {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                Navigator.pushReplacement(
+                Navigator.pop(context);
+
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Home()),
                 );
-                Navigator.pop(context);
               }),
           ListTile(
               leading: Icon(Icons.person),
               title: Text('Profile'),
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Profile()));
                 Navigator.pop(context);
-              }),
 
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Profile()));
+              }),
           ListTile(
               leading: Icon(Icons.settings),
               title: Text('Setting'),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Setting()));
-                Navigator.pop(context);
               }),
           Divider(
             height: 1,
@@ -99,7 +100,6 @@ class _DrawState extends State<Draw> {
                 final provider =
                     Provider.of<Authorization>(context, listen: false);
                 provider.logout();
-
               }),
         ],
       ),
