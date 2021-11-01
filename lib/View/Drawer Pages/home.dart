@@ -4,7 +4,11 @@ import 'package:collegeproject/View/dropdown/shop.dart';
 import 'package:collegeproject/View/dropdown/welcome.dart';
 import 'package:collegeproject/utilities/list.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../MainPage.dart';
+import '../info.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,11 +18,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  Future checkFirst() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+    if (_seen) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => Home()));
+    } else {
+      await prefs.setBool('seen', true);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => Info()));
+    }
+  }
+
+
   bool state = false;
   String dropdownvalue = "Please Select an Option";
 
   @override
   Widget build(BuildContext context) {
+    //checkFirst();
     var W = context.safePercentWidth;
     var H = context.safePercentHeight;
 

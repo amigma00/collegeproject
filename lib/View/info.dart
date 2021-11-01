@@ -1,9 +1,11 @@
+import 'package:collegeproject/main.dart';
 import 'package:collegeproject/utilities/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Drawer Pages/home.dart';
 import 'MainPage.dart';
 
 class Info extends StatefulWidget {
@@ -62,9 +64,9 @@ class _InfoState extends State<Info> {
                     prefs.setString('city', City.text);
                     prefs.setString('pinCode', PinCode.text);
 
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
                   );
                 }),
 

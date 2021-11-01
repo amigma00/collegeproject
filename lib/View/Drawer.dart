@@ -19,7 +19,7 @@ class Draw extends StatefulWidget {
 class _DrawState extends State<Draw> {
   @override
   Widget build(BuildContext context) {
-    final auth = Authorization();
+    Authorization auth = Authorization();
     final user = FirebaseAuth.instance.currentUser!;
 
     return Drawer(
@@ -95,11 +95,15 @@ class _DrawState extends State<Draw> {
           ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
-              onTap: () {
+              onTap: () async{
                 //await auth.logout();
                 final provider =
                     Provider.of<Authorization>(context, listen: false);
                 provider.logout();
+                //auth.logout();
+                // Navigator.pop(context);
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => MyHomePage()));
               }),
         ],
       ),

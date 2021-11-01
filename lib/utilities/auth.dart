@@ -42,7 +42,7 @@ class Authorization extends ChangeNotifier {
 
   Future logout() async {
     await googleSignIn.disconnect();
-    await FirebaseAuth.instance.signOut();
+    FirebaseAuth.instance.signOut();
 //notifyListeners();
   }
 }
