@@ -1,8 +1,4 @@
-import 'package:collegeproject/FirstTime.dart';
 import 'package:collegeproject/View/Drawer%20Pages/home.dart';
-import 'package:collegeproject/View/Drawer%20Pages/setting.dart';
-import 'package:collegeproject/View/MainPage.dart';
-import 'package:collegeproject/View/dropdown/hospital.dart';
 import 'package:collegeproject/View/info.dart';
 import 'package:collegeproject/View/login_screen.dart';
 import 'package:collegeproject/utilities/auth.dart';
@@ -13,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'View/dropdown/shop.dart';
-import 'View/dropdown/welcome.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

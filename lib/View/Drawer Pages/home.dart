@@ -1,5 +1,6 @@
 import 'package:collegeproject/View/Drawer.dart';
 import 'package:collegeproject/View/dropdown/hospital.dart';
+import 'package:collegeproject/View/dropdown/restaurant.dart';
 import 'package:collegeproject/View/dropdown/shop.dart';
 import 'package:collegeproject/View/dropdown/welcome.dart';
 import 'package:collegeproject/utilities/list.dart';
@@ -18,9 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   Future checkFirst() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
     if (_seen) {
@@ -32,7 +31,6 @@ class _HomeState extends State<Home> {
           .push(MaterialPageRoute(builder: (context) => Info()));
     }
   }
-
 
   bool state = false;
   String dropdownvalue = "Please Select an Option";
@@ -56,7 +54,7 @@ class _HomeState extends State<Home> {
             DropdownButton<String>(
               value: dropdownvalue,
               isExpanded: true,
-              items: <String>['Please Select an Option', 'Hospitals', 'Shops']
+              items: <String>['Please Select an Option', 'Hospitals', 'Shops','Restaurants']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -74,6 +72,8 @@ class _HomeState extends State<Home> {
               Shop()
             else if (dropdownvalue == "Hospitals")
               Hospital()
+            else if (dropdownvalue == 'Restaurants')
+              Restaurant()
             else
               Welcome()
             //shop
