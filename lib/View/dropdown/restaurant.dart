@@ -31,12 +31,12 @@ class Restaurant extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("NAME").text.xl2.bold.make(),
-                              // Row(
-                              //   children: [
-                              //     "Available Beds : ".text.make(),
-                              //     "34".text.green400.make(),
-                              //   ],
-                              // ),
+                              Row(
+                                children: [
+                                  "Available tables : ".text.make(),
+                                  "34".text.green400.make(),
+                                ],
+                              ),
                               HeightBox(20),
                               Row(
                                 children: [
