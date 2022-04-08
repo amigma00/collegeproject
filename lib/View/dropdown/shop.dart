@@ -39,10 +39,13 @@ class _ShopState extends State<Shop> {
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-          .collection('Shop')
-          .where('city', isEqualTo: city,)
-          .where('pincode', isEqualTo: pinCode)
-          .snapshots(),
+              .collection('Shop')
+              .where(
+                'city',
+                isEqualTo: city,
+              )
+              .where('pincode', isEqualTo: pinCode)
+              .snapshots(),
           builder: (context, shopSnapshot) {
             if (shopSnapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -51,15 +54,14 @@ class _ShopState extends State<Shop> {
               return ListView.builder(
                   itemCount: shopDocs.length,
                   itemBuilder: (context, index) {
-                    Future<void> openMap(double latitude,
-                        double longitude) async {
+                    Future<void> openMap(
+                        double latitude, double longitude) async {
                       String googleUrl =
                           'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-                      if (await canLaunch(googleUrl)) {
+                      print("hi hello$latitude");
+                     
                         await launch(googleUrl);
-                      } else {
-                        throw 'Could not open the map.';
-                      }
+                     
                     }
 
                     Future<void> _makePhoneCall(String url) async {
@@ -69,6 +71,7 @@ class _ShopState extends State<Shop> {
                         throw 'Could not launch $url';
                       }
                     }
+
                     var k = shopDocs[index]['phoneno'];
                     bool ok = shopDocs[index]['status'];
                     return Container(
@@ -83,12 +86,12 @@ class _ShopState extends State<Shop> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(shopDocs[index]['name'])
                                           .text
@@ -109,13 +112,12 @@ class _ShopState extends State<Shop> {
                                                 openMap(
                                                     shopDocs[index]['latitude'],
                                                     shopDocs[index]
-                                                    ['longitude']);
+                                                        ['longitude']);
                                               },
                                               icon: Icon(Icons.directions)),
                                           IconButton(
                                               onPressed: () {
-                                                _makePhoneCall(
-                                                    'tel:+91$k');
+                                                _makePhoneCall('tel:+91$k');
                                               },
                                               icon: Icon(Icons.phone)),
                                         ],
@@ -134,26 +136,27 @@ class _ShopState extends State<Shop> {
                                         ],
                                       ),
                                       HeightBox(10),
-                                      shopDocs[index]['piclink']!=null
-                                      ?ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        child: Image.network(
-                                          shopDocs[index]['piclink'],
-                                          scale: 2,
-                                          height: H*20,
-                                          width: W*20,
-                                        ),
-                                      ):ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        child: Image.network(
-                                          "assets/logos/grocery.jpg",
-                                          scale: 2,
-                                          height: H*20,
-                                          width: W*20,
-                                        ),
-                                      ),
+                                      shopDocs[index]['piclink'] != null
+                                          ? ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              child: Image.network(
+                                                shopDocs[index]['piclink'],
+                                                scale: 2,
+                                                height: H * 20,
+                                                width: W * 20,
+                                              ),
+                                            )
+                                          : ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              child: Image.asset(
+                                                "assets/logos/grocery.jpg",
+                                                scale: 2,
+                                                height: H * 20,
+                                                width: W * 20,
+                                              ),
+                                            ),
                                     ],
                                   )
                                 ],

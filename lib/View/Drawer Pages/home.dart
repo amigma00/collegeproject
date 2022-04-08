@@ -1,15 +1,14 @@
 import 'package:collegeproject/View/Drawer.dart';
 import 'package:collegeproject/View/dropdown/hospital.dart';
-import 'package:collegeproject/View/dropdown/restaurant.dart';
 import 'package:collegeproject/View/dropdown/shop.dart';
 import 'package:collegeproject/View/dropdown/welcome.dart';
-import 'package:collegeproject/utilities/list.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../MainPage.dart';
+import '../dropdown/restaurant.dart';
 import '../info.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

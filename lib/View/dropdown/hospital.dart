@@ -154,7 +154,7 @@ class _HospitalState extends State<Hospital> {
                                       ):ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
-                                        child: Image.network(
+                                        child: Image.asset(
                                           "assets/logos/download.jfif",
                                           scale: 2,
                                           height: H*20,
