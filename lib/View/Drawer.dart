@@ -1,6 +1,5 @@
 import 'package:collegeproject/View/Drawer%20Pages/setting.dart';
-import 'package:collegeproject/View/login_screen.dart';
-import 'package:collegeproject/main.dart';
+import 'package:collegeproject/View/upi.dart';
 import 'package:collegeproject/utilities/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +94,7 @@ class _DrawState extends State<Draw> {
           ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
-              onTap: () async{
+              onTap: () async {
                 //await auth.logout();
                 final provider =
                     Provider.of<Authorization>(context, listen: false);
@@ -105,6 +104,16 @@ class _DrawState extends State<Draw> {
                 // Navigator.pushReplacement(context,
                 //     MaterialPageRoute(builder: (context) => MyHomePage()));
               }),
+          Divider(
+            height: 1,
+          ),
+          // ListTile(
+          //     leading: Icon(Icons.exit_to_app),
+          //     title: Text('UPI'),
+          //     onTap: () async {
+          //       Navigator.push(
+          //           context, MaterialPageRoute(builder: (context) => Upi()));
+          //     })
         ],
       ),
     );

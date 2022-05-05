@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collegeproject/utilities/list.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../upi.dart';
 
 class Shop extends StatefulWidget {
   const Shop({Key? key}) : super(key: key);
@@ -19,10 +20,13 @@ class _ShopState extends State<Shop> {
   @override
   void initState() {
     getData();
+    super.initState();
   }
 
   String city = " ";
   String pinCode = " ";
+  TextEditingController amountController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -59,9 +63,8 @@ class _ShopState extends State<Shop> {
                       String googleUrl =
                           'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
                       print("hi hello$latitude");
-                     
-                        await launch(googleUrl);
-                     
+
+                      await launch(googleUrl);
                     }
 
                     Future<void> _makePhoneCall(String url) async {
@@ -89,40 +92,128 @@ class _ShopState extends State<Shop> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(shopDocs[index]['name'])
-                                          .text
-                                          .xl2
-                                          .bold
-                                          .make(),
-                                      // Row(
-                                      //   children: [
-                                      //     "Available Beds : ".text.make(),
-                                      //     "34".text.green400.make(),
-                                      //   ],
-                                      // ),
-                                      HeightBox(20),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                openMap(
-                                                    shopDocs[index]['latitude'],
-                                                    shopDocs[index]
-                                                        ['longitude']);
-                                              },
-                                              icon: Icon(Icons.directions)),
-                                          IconButton(
-                                              onPressed: () {
-                                                _makePhoneCall('tel:+91$k');
-                                              },
-                                              icon: Icon(Icons.phone)),
-                                        ],
-                                      )
-                                    ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(shopDocs[index]['name'])
+                                            .text
+                                            .xl2
+                                            .bold
+                                            .make(),
+                                        // Row(
+                                        //   children: [
+                                        //     "Available Beds : ".text.make(),
+                                        //     "34".text.green400.make(),
+                                        //   ],
+                                        // ),
+                                        HeightBox(20),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  openMap(
+                                                      shopDocs[index]
+                                                          ['latitude'],
+                                                      shopDocs[index]
+                                                          ['longitude']);
+                                                },
+                                                icon: Icon(Icons.directions)),
+                                            IconButton(
+                                                onPressed: () {
+                                                  _makePhoneCall('tel:+91$k');
+                                                },
+                                                icon: Icon(Icons.phone)),
+                                            IconButton(
+                                                onPressed: () {
+                                                  shopDocs[index]['upi'] != ""
+                                                      ? showDialog<void>(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                              true, // user must tap button!
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Form(
+                                                              key: formKey,
+                                                              child:
+                                                                  AlertDialog(
+                                                                title: const Text(
+                                                                    'Enter Amount'),
+                                                                content:
+                                                                    TextFormField(
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  validator:
+                                                                      (value) {
+                                                                    if (value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty) {
+                                                                      return 'Please enter amount';
+                                                                    } else if (value ==
+                                                                        "0") {
+                                                                      return " please enter amount other than 0";
+                                                                    }
+                                                                    return null;
+                                                                  },
+                                                                  controller:
+                                                                      amountController,
+                                                                ),
+                                                                actions: <
+                                                                    Widget>[
+                                                                  ElevatedButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      if (formKey
+                                                                          .currentState!
+                                                                          .validate()) {
+                                                                        await Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (context) => Upi(
+                                                                                      name: shopDocs[index]['name'],
+                                                                                      upiId: shopDocs[index]['upi'],
+                                                                                      amount: double.parse(amountController.text),
+                                                                                    )));
+                                                                        amountController
+                                                                            .clear();
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }
+                                                                    },
+                                                                    child: const Text(
+                                                                        'Submit'),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        )
+                                                      : showDialog<void>(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                              true, // user must tap button!
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Form(
+                                                              key: formKey,
+                                                              child:
+                                                                  AlertDialog(
+                                                                title: const Text(
+                                                                    'This merchant has not updated his upi id'),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                },
+                                                icon:
+                                                    Icon(Icons.currency_rupee)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Column(
                                     children: [
