@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../upi.dart';
+
 class Hospital extends StatefulWidget {
   const Hospital({Key? key}) : super(key: key);
 
@@ -21,6 +23,8 @@ class _HospitalState extends State<Hospital> {
     getData();
   }
 
+  TextEditingController amountController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   String city = " ";
   String pinCode = " ";
 
@@ -125,6 +129,87 @@ class _HospitalState extends State<Hospital> {
                                                 _makePhoneCall('tel:+91$k');
                                               },
                                               icon: Icon(Icons.phone)),
+                                          IconButton(
+                                              onPressed: () {
+                                                hospDocs[index]['upi'] != ""
+                                                    ? showDialog<void>(
+                                                        context: context,
+                                                        barrierDismissible:
+                                                            true, // user must tap button!
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return Form(
+                                                            key: formKey,
+                                                            child: AlertDialog(
+                                                              title: const Text(
+                                                                  'Enter Amount'),
+                                                              content:
+                                                                  TextFormField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                validator:
+                                                                    (value) {
+                                                                  if (value ==
+                                                                          null ||
+                                                                      value
+                                                                          .isEmpty) {
+                                                                    return 'Please enter amount';
+                                                                  } else if (value ==
+                                                                      "0") {
+                                                                    return " please enter amount other than 0";
+                                                                  }
+                                                                  return null;
+                                                                },
+                                                                controller:
+                                                                    amountController,
+                                                              ),
+                                                              actions: <Widget>[
+                                                                ElevatedButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    if (formKey
+                                                                        .currentState!
+                                                                        .validate()) {
+                                                                      await Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => Upi(
+                                                                                    name: hospDocs[index]['name'],
+                                                                                    upiId: hospDocs[index]['upi'],
+                                                                                    amount: double.parse(amountController.text),
+                                                                                  )));
+                                                                      amountController
+                                                                          .clear();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    }
+                                                                  },
+                                                                  child: const Text(
+                                                                      'Submit'),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      )
+                                                    : showDialog<void>(
+                                                        context: context,
+                                                        barrierDismissible:
+                                                            true, // user must tap button!
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return Form(
+                                                            key: formKey,
+                                                            child: AlertDialog(
+                                                              title: const Text(
+                                                                  'This merchant has not updated his upi id'),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                              },
+                                              icon: Icon(Icons.currency_rupee)),
                                         ],
                                       )
                                     ],
@@ -141,26 +226,27 @@ class _HospitalState extends State<Hospital> {
                                         ],
                                       ),
                                       HeightBox(10),
-                                      hospDocs[index]['piclink']!=null
-                                          ?ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        child: Image.network(
-                                          hospDocs[index]['piclink'],
-                                          scale: 2,
-                                          height: H*20,
-                                          width: W*20,
-                                        ),
-                                      ):ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        child: Image.asset(
-                                          "assets/logos/download.jfif",
-                                          scale: 2,
-                                          height: H*20,
-                                          width: W*20,
-                                        ),
-                                      ),
+                                      hospDocs[index]['piclink'] != null
+                                          ? ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              child: Image.network(
+                                                hospDocs[index]['piclink'],
+                                                scale: 2,
+                                                height: H * 20,
+                                                width: W * 20,
+                                              ),
+                                            )
+                                          : ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              child: Image.asset(
+                                                "assets/logos/download.jfif",
+                                                scale: 2,
+                                                height: H * 20,
+                                                width: W * 20,
+                                              ),
+                                            ),
                                     ],
                                   )
                                 ],

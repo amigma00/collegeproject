@@ -4,6 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../upi.dart';
+
 class Restaurant extends StatefulWidget {
   const Restaurant({Key? key}) : super(key: key);
 
@@ -15,16 +17,18 @@ class _RestaurantState extends State<Restaurant> {
   String city = " ";
   bool state = false;
   String pinCode = " ";
+  TextEditingController amountController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   void initState() {
     getData();
   }
+
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       city = prefs.getString('city')!;
       pinCode = prefs.getString('pinCode')!;
-      
     });
   }
 
@@ -73,90 +77,183 @@ class _RestaurantState extends State<Restaurant> {
                         //margin: EdgeInsets.all(10),
                         child: Container(
                           padding: EdgeInsets.all(W * 2),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(respDocs[index]['name'])
-                                          .text
-                                          .xl2
-                                          .bold
-                                          .make(),
-                                      Row(
+                          child: Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          "Available Tables : ".text.make(),
-                                          Text(respDocs[index]['tables'])
+                                          Text(respDocs[index]['name'])
                                               .text
-                                              .green400
+                                              .xl2
+                                              .bold
                                               .make(),
+                                          Row(
+                                            children: [
+                                              "Available Tables : ".text.make(),
+                                              Text(respDocs[index]['tables'])
+                                                  .text
+                                                  .green400
+                                                  .make(),
+                                            ],
+                                          ),
+                                          HeightBox(20),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    openMap(
+                                                        respDocs[index]
+                                                            ['latitude'],
+                                                        respDocs[index]
+                                                            ['longitude']);
+                                                  },
+                                                  icon: Icon(Icons.directions)),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _makePhoneCall('tel:+91$k');
+                                                  },
+                                                  icon: Icon(Icons.phone)),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    respDocs[index]['upi'] != ""
+                                                        ? showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
+                                                                true, // user must tap button!
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return Form(
+                                                                key: formKey,
+                                                                child:
+                                                                    AlertDialog(
+                                                                  title: const Text(
+                                                                      'Enter Amount'),
+                                                                  content:
+                                                                      TextFormField(
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .number,
+                                                                    validator:
+                                                                        (value) {
+                                                                      if (value ==
+                                                                              null ||
+                                                                          value
+                                                                              .isEmpty) {
+                                                                        return 'Please enter amount';
+                                                                      } else if (value ==
+                                                                          "0") {
+                                                                        return " please enter amount other than 0";
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                    controller:
+                                                                        amountController,
+                                                                  ),
+                                                                  actions: <
+                                                                      Widget>[
+                                                                    ElevatedButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        if (formKey
+                                                                            .currentState!
+                                                                            .validate()) {
+                                                                          await Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                  builder: (context) => Upi(
+                                                                                        name: respDocs[index]['name'],
+                                                                                        upiId: respDocs[index]['upi'],
+                                                                                        amount: double.parse(amountController.text),
+                                                                                      )));
+                                                                          amountController
+                                                                              .clear();
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        }
+                                                                      },
+                                                                      child: const Text(
+                                                                          'Submit'),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
+                                                                true, // user must tap button!
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return Form(
+                                                                key: formKey,
+                                                                child:
+                                                                    AlertDialog(
+                                                                  title: const Text(
+                                                                      'This merchant has not updated his upi id'),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                  },
+                                                  icon: Icon(
+                                                      Icons.currency_rupee)),
+                                            ],
+                                          )
                                         ],
                                       ),
-                                      HeightBox(20),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                openMap(
-                                                    respDocs[index]['latitude'],
-                                                    respDocs[index]
-                                                        ['longitude']);
-                                              },
-                                              icon: Icon(Icons.directions)),
-                                          IconButton(
-                                              onPressed: () {
-                                                _makePhoneCall('tel:+91$k');
-                                              },
-                                              icon: Icon(Icons.phone)),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          "Status : ".text.make(),
-                                          if (state == ok)
-                                            "Off".text.red400.bold.make()
-                                          else
-                                            "On".text.green400.bold.make()
-                                        ],
-                                      ),
-                                      HeightBox(10),
-                                      respDocs[index]['piclink'] != null
-                                          ? ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10)),
-                                              child: Image.network(
-                                                respDocs[index]['piclink'],
-                                                scale: 2,
-                                                height: H * 20,
-                                                width: W * 20,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            "Status : ".text.make(),
+                                            if (state == ok)
+                                              "Off".text.red400.bold.make()
+                                            else
+                                              "On".text.green400.bold.make()
+                                          ],
+                                        ),
+                                        HeightBox(10),
+                                        respDocs[index]['piclink'] != null
+                                            ? ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                child: Image.network(
+                                                  respDocs[index]['piclink'],
+                                                  scale: 2,
+                                                  height: H * 20,
+                                                  width: W * 20,
+                                                ),
+                                              )
+                                            : ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                child: Image.asset(
+                                                  "assets/logos/download.jfif",
+                                                  scale: 2,
+                                                  height: H * 20,
+                                                  width: W * 20,
+                                                ),
                                               ),
-                                            )
-                                          : ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10)),
-                                              child: Image.asset(
-                                                "assets/logos/download.jfif",
-                                                scale: 2,
-                                                height: H * 20,
-                                                width: W * 20,
-                                              ),
-                                            ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

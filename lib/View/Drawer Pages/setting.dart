@@ -49,31 +49,32 @@ class _SettingState extends State<Setting> {
             SizedBox(
               height: 20,
             ),
-        TextFormField(
-          controller: Cuty,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.blueAccent,
-                width: 2,
+            TextFormField(
+              controller: Cuty,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+                  ),
+                ),
+                prefixIcon: Icon(
+                  Icons.location_city,
+                  color: Colors.blue,
+                ),
+                labelText: city,
+                // helperText: "Write Your Current Location",
+                //hintText: 'Mumbai',
               ),
             ),
-            prefixIcon: Icon(
-              Icons.location_city,
-              color: Colors.blue,
-            ),
-            labelText: city,
-            // helperText: "Write Your Current Location",
-            //hintText: 'Mumbai',
-          ),
-        ),
             SizedBox(
               height: 20,
             ),
-            TextFormField(controller: PinCude,
+            TextFormField(
+              controller: PinCude,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
@@ -99,7 +100,7 @@ class _SettingState extends State<Setting> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                OutlineButton(
+                MaterialButton(
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -115,16 +116,13 @@ class _SettingState extends State<Setting> {
                   ),
                 ),
                 RaisedButton(
-                  onPressed: ()  async{
-
-                      setState(() async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.setString('city', Cuty.text);
-                        prefs.setString('pinCode', PinCude.text);
-                      });
-
-
+                  onPressed: () async {
+                    setState(() async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setString('city', Cuty.text);
+                      prefs.setString('pinCode', PinCude.text);
+                    });
                   },
                   color: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 50),
@@ -158,7 +156,8 @@ class _SettingState extends State<Setting> {
   }
 
   Widget pincodeTextField() {
-    return TextFormField(controller: PinCude,
+    return TextFormField(
+      controller: PinCude,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blue),
