@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collegeproject/utilities/list.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +19,7 @@ class _HospitalState extends State<Hospital> {
 
   @override
   void initState() {
+    super.initState();
     getData();
   }
 
@@ -95,124 +95,131 @@ class _HospitalState extends State<Hospital> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(hospDocs[index]['name'])
-                                          .text
-                                          .xl2
-                                          .bold
-                                          .make(),
-                                      Row(
-                                        children: [
-                                          "Available Beds : ".text.make(),
-                                          Text(hospDocs[index]['beds'])
-                                              .text
-                                              .green400
-                                              .make(),
-                                        ],
-                                      ),
-                                      HeightBox(20),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                openMap(
-                                                    hospDocs[index]['latitude'],
-                                                    hospDocs[index]
-                                                        ['longitude']);
-                                              },
-                                              icon: Icon(Icons.directions)),
-                                          IconButton(
-                                              onPressed: () {
-                                                _makePhoneCall('tel:+91$k');
-                                              },
-                                              icon: Icon(Icons.phone)),
-                                          IconButton(
-                                              onPressed: () {
-                                                hospDocs[index]['upi'] != ""
-                                                    ? showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            true, // user must tap button!
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return Form(
-                                                            key: formKey,
-                                                            child: AlertDialog(
-                                                              title: const Text(
-                                                                  'Enter Amount'),
-                                                              content:
-                                                                  TextFormField(
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                validator:
-                                                                    (value) {
-                                                                  if (value ==
-                                                                          null ||
-                                                                      value
-                                                                          .isEmpty) {
-                                                                    return 'Please enter amount';
-                                                                  } else if (value ==
-                                                                      "0") {
-                                                                    return " please enter amount other than 0";
-                                                                  }
-                                                                  return null;
-                                                                },
-                                                                controller:
-                                                                    amountController,
-                                                              ),
-                                                              actions: <Widget>[
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    if (formKey
-                                                                        .currentState!
-                                                                        .validate()) {
-                                                                      await Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder: (context) => Upi(
-                                                                                    name: hospDocs[index]['name'],
-                                                                                    upiId: hospDocs[index]['upi'],
-                                                                                    amount: double.parse(amountController.text),
-                                                                                  )));
-                                                                      amountController
-                                                                          .clear();
-                                                                      Navigator.pop(
-                                                                          context);
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(hospDocs[index]['name'])
+                                            .text
+                                            .xl2
+                                            .bold
+                                            .make(),
+                                        Row(
+                                          children: [
+                                            "Available Beds : ".text.make(),
+                                            Text(hospDocs[index]['beds'])
+                                                .text
+                                                .green400
+                                                .make(),
+                                          ],
+                                        ),
+                                        HeightBox(20),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  openMap(
+                                                      hospDocs[index]
+                                                          ['latitude'],
+                                                      hospDocs[index]
+                                                          ['longitude']);
+                                                },
+                                                icon: Icon(Icons.directions)),
+                                            IconButton(
+                                                onPressed: () {
+                                                  _makePhoneCall('tel:+91$k');
+                                                },
+                                                icon: Icon(Icons.phone)),
+                                            IconButton(
+                                                onPressed: () {
+                                                  hospDocs[index]['upi'] != ""
+                                                      ? showDialog<void>(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                              true, // user must tap button!
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Form(
+                                                              key: formKey,
+                                                              child:
+                                                                  AlertDialog(
+                                                                title: const Text(
+                                                                    'Enter Amount'),
+                                                                content:
+                                                                    TextFormField(
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  validator:
+                                                                      (value) {
+                                                                    if (value ==
+                                                                            null ||
+                                                                        value
+                                                                            .isEmpty) {
+                                                                      return 'Please enter amount';
+                                                                    } else if (value ==
+                                                                        "0") {
+                                                                      return " please enter amount other than 0";
                                                                     }
+                                                                    return null;
                                                                   },
-                                                                  child: const Text(
-                                                                      'Submit'),
+                                                                  controller:
+                                                                      amountController,
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                      )
-                                                    : showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            true, // user must tap button!
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return Form(
-                                                            key: formKey,
-                                                            child: AlertDialog(
-                                                              title: const Text(
-                                                                  'This merchant has not updated his upi id'),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                              },
-                                              icon: Icon(Icons.currency_rupee)),
-                                        ],
-                                      )
-                                    ],
+                                                                actions: <
+                                                                    Widget>[
+                                                                  ElevatedButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      if (formKey
+                                                                          .currentState!
+                                                                          .validate()) {
+                                                                        await Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (context) => Upi(
+                                                                                      name: hospDocs[index]['name'],
+                                                                                      upiId: hospDocs[index]['upi'],
+                                                                                      amount: double.parse(amountController.text),
+                                                                                    )));
+                                                                        amountController
+                                                                            .clear();
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }
+                                                                    },
+                                                                    child: const Text(
+                                                                        'Submit'),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        )
+                                                      : showDialog<void>(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                              true, // user must tap button!
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Form(
+                                                              key: formKey,
+                                                              child:
+                                                                  AlertDialog(
+                                                                title: const Text(
+                                                                    'This merchant has not updated his upi id'),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                },
+                                                icon:
+                                                    Icon(Icons.currency_rupee)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Column(
                                     children: [

@@ -37,42 +37,41 @@ class _RestaurantState extends State<Restaurant> {
   Widget build(BuildContext context) {
     var W = context.safePercentWidth;
     var H = context.safePercentHeight;
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Restaurant')
-            .where(
-              'city',
-              isEqualTo: city,
-            )
-            .where('pincode', isEqualTo: pinCode)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            print("ha mai chlra huuu");
-            final respDocs = snapshot.data!.docs;
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Restaurant')
+              .where(
+                'city',
+                isEqualTo: city,
+              )
+              .where('pincode', isEqualTo: pinCode)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              print("ha mai chlra huuu");
+              final respDocs = snapshot.data!.docs;
 
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: respDocs.length,
-                itemBuilder: (context, index) {
-                  Future<void> openMap(
-                      double latitude, double longitude) async {
-                    String googleUrl =
-                        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+              return ListView.builder(
+                  itemCount: respDocs.length,
+                  itemBuilder: (context, index) {
+                    Future<void> openMap(
+                        double latitude, double longitude) async {
+                      String googleUrl =
+                          'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
 
-                    await launch(googleUrl);
-                  }
+                      await launch(googleUrl);
+                    }
 
-                  Future<void> _makePhoneCall(String url) async {
-                    await launch(url);
-                  }
+                    Future<void> _makePhoneCall(String url) async {
+                      await launch(url);
+                    }
 
-                  var k = respDocs[index]['phoneno'];
-                  bool ok = respDocs[index]['status'];
-                  return Container(
-                    child: Card(
+                    var k = respDocs[index]['phoneno'];
+                    bool ok = respDocs[index]['status'];
+                    return Card(
                       elevation: 5,
                       //color: Colors.grey,
                       //margin: EdgeInsets.all(10),
@@ -247,10 +246,10 @@ class _RestaurantState extends State<Restaurant> {
                           ],
                         ),
                       ),
-                    ),
-                  );
-                });
-          }
-        });
+                    );
+                  });
+            }
+          }),
+    );
   }
 }
